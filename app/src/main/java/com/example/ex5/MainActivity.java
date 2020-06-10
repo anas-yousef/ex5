@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     class Receiver extends BroadcastReceiver {
 
-
         public Receiver() {
         }
 
@@ -39,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.info = "longitude: " + Double.toString(intent.getDoubleExtra("longitude", 0f));
                 MainActivity.this.info += " latitude: " + Double.toString(intent.getDoubleExtra("latitude", 0f));
                 Toast toast=Toast.makeText(getApplicationContext(), MainActivity.this.info,Toast.LENGTH_SHORT);
-                    toast.show();
+                toast.show();
 
             }
+
 
         }
     }
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (hasLocationPermission) {
                     MainActivity.this.locationTracker.startTracking();
-                    MainActivity.this.trackingButton.setText("Stop Tracking");
+                    //MainActivity.this.trackingButton.setText("Stop Tracking");
                 } else {
 
                     ActivityCompat.requestPermissions(
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             MainActivity.this.locationTracker.startTracking(); // cool
-            MainActivity.this.trackingButton.setText("Stop Tracking");
+           // MainActivity.this.trackingButton.setText("Stop Tracking");
         } else {
             // the user has denied our request! =-O
 

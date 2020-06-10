@@ -21,7 +21,7 @@ public class LocationTracker extends AppCompatActivity {
     Context context;
     private LocationInfo locationInfo;
     Context currentContext;
-    public int counter = 0;
+    public LocationListener locationListener;
 
 
 
@@ -35,7 +35,7 @@ public class LocationTracker extends AppCompatActivity {
     @SuppressLint("MissingPermission")
     public void startTracking() {
         if (this.locationManager != null) {
-            final LocationListener locationListener = new LocationListener() {
+            LocationTracker.this.locationListener = new LocationListener() {
                 public void onLocationChanged(Location location) {
                     double longitude = location.getLongitude();
                     double latitude = location.getLatitude();
@@ -62,7 +62,7 @@ public class LocationTracker extends AppCompatActivity {
                 }
             };
             this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    2000, 100, locationListener);
+                    2000, 10, locationListener);
 
 //            Intent intent = new Intent("Something Changed");
 //            intent.putExtra("longitude", LocationTracker.this.locationInfo.getLongitude());
@@ -76,6 +76,9 @@ public class LocationTracker extends AppCompatActivity {
 
     public void stopTracking()
     {
-
+        Intent intent = new Intent("Stop Tracking");
+        this.locationManager.removeUpdates(this.locationListener);
+        this.locationListener = null;
+        LocationTracker.this.context.sendBroadcast(intent);
     }
 }
