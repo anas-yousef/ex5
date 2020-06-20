@@ -11,14 +11,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.Settings;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+@SuppressLint("Registered")
 public class LocationTracker extends AppCompatActivity {
     LocationManager locationManager;
-    Context context;
+    MainActivity context;
     private LocationInfo locationInfo;
     Context currentContext;
     public LocationListener locationListener;
@@ -26,7 +29,7 @@ public class LocationTracker extends AppCompatActivity {
 
 
     public LocationTracker(Context context) {
-        this.context = context;
+        this.context = (MainActivity) context;
         this.currentContext = this;
         this.locationManager = (LocationManager) this.context.getSystemService(Context.LOCATION_SERVICE);
         this.locationInfo = new LocationInfo(0,0,0);
@@ -39,11 +42,13 @@ public class LocationTracker extends AppCompatActivity {
                 public void onLocationChanged(Location location) {
                     double longitude = location.getLongitude();
                     double latitude = location.getLatitude();
-                    LocationTracker.this.locationInfo = new LocationInfo(100.0,longitude, latitude);
-                    Intent intent = new Intent("Something Changed");
+                    LocationTracker.this.locationInfo = new LocationInfo(location.getAccuracy(),longitude, latitude);
+                    Intent intent = new Intent(MainActivity.LOCATION_ACTION);
                     intent.putExtra("longitude", LocationTracker.this.locationInfo.getLongitude());
                     intent.putExtra("latitude", LocationTracker.this.locationInfo.getLatitude());
+                    intent.putExtra("accuracy", LocationTracker.this.locationInfo.getAccuracy());
                     LocationTracker.this.context.sendBroadcast(intent);
+
                 }
 
                 @Override
@@ -58,11 +63,11 @@ public class LocationTracker extends AppCompatActivity {
 
                 @Override
                 public void onProviderDisabled(String provider) {
-
+//
                 }
             };
             this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    2000, 10, locationListener);
+                    200, 1, locationListener);
 
 //            Intent intent = new Intent("Something Changed");
 //            intent.putExtra("longitude", LocationTracker.this.locationInfo.getLongitude());
