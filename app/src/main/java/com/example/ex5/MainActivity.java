@@ -176,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.sharedPreferences.edit().putString(LocalSendSmsBroadcastReceiver.PHONE,"").apply();
                 MainActivity.this.sendSMS.setVisibility(View.INVISIBLE);
                 MainActivity.this.setPhoneNumber.setVisibility(View.VISIBLE);
-                int x = 0;
             }
         });
 

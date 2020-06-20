@@ -42,7 +42,6 @@ public class LocalSendSmsBroadcastReceiver extends BroadcastReceiver {
             this.msgContent = intent.getStringExtra(CONTENT);
 
             sendSMS(context, phoneNum, msgContent);
-            //NotificationHandler notificationHandler = new NotificationHandler(phoneNum, msgContent, context);
             this.createNotificationChannel();
             this.displayNotification();
         }
